@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO — sẽ được JS cập nhật từ data.json -->
+  <title>NIX — Game Dev Blog</title>
+  <meta name="description" content="Blog cá nhân của một game developer — nơi chia sẻ hành trình, kỹ thuật, và những bài học từ thực tế.">
+  <meta name="theme-color" content="#0a0e17">
+  <meta property="og:title" content="NIX — Game Dev Blog">
+  <meta property="og:description" content="Blog cá nhân của một game developer.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon — pixel controller -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <!--
+  ╔══════════════════════════════════════════════════════╗
+  ║  GITHUB PAGES CONFIG                                 ║
+  ║  Deploy dạng  username.github.io/repo  →             ║
+  ║    BASE_PATH: '/repo-name'                           ║
+  ║  Deploy dạng  username.github.io (root) →            ║
+  ║    BASE_PATH: ''                                     ║
+  ╚══════════════════════════════════════════════════════╝
+  -->
+  <script>
+    window.SITE_CONFIG = {
+      BASE_PATH: '',
+      DATA_FILE: 'data.json',
+    };
+  </script>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <button class="logo" id="logoBtn" aria-label="Về trang chủ">
+        <span class="logo-bracket">[</span><span class="logo-name">NIX</span><span class="logo-bracket">]</span>
+      </button>
+
+      <nav class="header-nav" id="headerNav" aria-label="Điều hướng chính">
+        <!-- Rendered by JS from data.json navigation -->
+      </nav>
+
+      <div class="header-right">
+        <div class="post-badge" aria-live="polite">
+          <span id="postCountStatus">—</span>
+          <span class="badge-label">posts</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- List View -->
+  <div id="listView">
+
+    <!-- Hero -->
+    <section class="hero" id="heroSection">
+      <div class="container hero-layout">
+        <div class="hero-text">
+          <p class="hero-kicker" id="heroKicker">Game Dev · Code · Creative</p>
+          <h1 class="hero-heading" id="heroHeading">Tôi là <em>NIX</em></h1>
+          <p class="hero-sub" id="heroSub">
+            Game developer, coder, và người thích chia sẻ.
+          </p>
+          <div class="hero-socials" id="heroSocials">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="pixel-grid" id="pixelGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls -->
+    <div class="controls-bar">
+      <div class="container controls-inner">
+        <div class="search-wrap" role="search">
+          <svg class="search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <input type="search" id="searchInput" placeholder="Tìm bài viết..." autocomplete="off" spellcheck="false" aria-label="Tìm kiếm bài viết">
+        </div>
+        <div id="tagFilters" class="tag-filters" role="group" aria-label="Lọc theo chủ đề"></div>
+        <button id="sortBtn" class="sort-btn" aria-label="Đổi thứ tự sắp xếp">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" width="14" height="14">
+            <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Mới nhất
+        </button>
+      </div>
+    </div>
+
+    <!-- Posts -->
+    <main id="mainContent" class="main-content" role="main" aria-label="Danh sách bài viết">
+      <!-- Rendered by JS -->
+    </main>
+  </div>
+
+  <!-- Detail View (SPA) -->
+  <div id="detailView" role="article" aria-label="Nội dung bài viết">
+    <!-- Rendered by JS -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="siteFooter">
+    <div class="container footer-inner">
+      <span class="footer-brand">[NIX]</span>
+      <span class="footer-copy" id="footerCopy">© 2026 NIX. Viết bởi chính mình.</span>
+      <a href="https://pages.github.com" target="_blank" rel="noopener" class="footer-link" id="footerLink">GitHub Pages</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

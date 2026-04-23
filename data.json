@@ -1,0 +1,94 @@
+{
+  "site": {
+    "name": "NIX",
+    "tagline": "game dev · code · creative",
+    "description": "Blog cá nhân của một game developer — nơi chia sẻ hành trình, kỹ thuật, và những bài học từ thực tế.",
+    "heroKicker": "Game Dev · Code · Creative",
+    "heroHeading": "Tôi là <em>NIX</em>",
+    "heroSub": "Game developer, coder, và người thích chia sẻ. Đây là nơi tôi viết về hành trình làm game, kỹ thuật lập trình, và những suy nghĩ cá nhân.",
+    "language": "vi",
+    "themeColor": "#0a0e17"
+  },
+  "author": {
+    "name": "Nix",
+    "avatar": "",
+    "bio": "Indie game developer. Đang xây dựng Project Haze — một 2D platformer xoay quanh sương mù và sự bất định. Thích pixel art, clean code, và cà phê đen.",
+    "socials": [
+      { "platform": "github", "url": "https://github.com/", "label": "GitHub" },
+      { "platform": "twitter", "url": "https://twitter.com/", "label": "Twitter" },
+      { "platform": "itch", "url": "https://itch.io/", "label": "Itch.io" }
+    ]
+  },
+  "navigation": [
+    { "label": "Trang chủ", "action": "home" },
+    { "label": "Devlog", "action": "filter", "tag": "devlog" },
+    { "label": "Kỹ thuật", "action": "filter", "tag": "kỹ-thuật" },
+    { "label": "Thiết kế", "action": "filter", "tag": "design" }
+  ],
+  "footer": {
+    "copyright": "© 2026 NIX. Viết bởi chính mình.",
+    "poweredBy": { "label": "GitHub Pages", "url": "https://pages.github.com" }
+  },
+  "posts": [
+    {
+      "id": "scope-creep-lesson",
+      "slug": "scope-creep-lesson",
+      "title": "Bài Học Đắt Giá: Scope Creep Giết Chết Dự Án Như Thế Nào",
+      "date": "2026-04-18",
+      "tags": ["gamedev", "bài-học", "production"],
+      "thumbnail": "",
+      "summary": "Hai tuần đi lạc vì thêm feature không cần thiết. Câu chuyện thật và cách mình thoát ra khỏi vòng lặp đó.",
+      "content": "<h2>Chuyện gì xảy ra</h2><p>Mình mất 2 tuần implement crafting system — một feature hoàn toàn không nằm trong design doc ban đầu. Kết quả: system hoạt động, nhưng không <em>fit</em> với core loop của game. Cuối cùng phải cắt bỏ toàn bộ.</p><h2>Tại sao lại xảy ra?</h2><p>Lý do đơn giản đến ngượng ngùng: <strong>mình thấy nó thú vị</strong>. Không phải vì game cần, mà vì mình muốn làm. Đây là cái bẫy kinh điển của solo dev — không có ai để kéo bạn lại.</p><h2>Lesson</h2><p>Mỗi feature mới phải trả lời được: <em>\"Feature này serve core loop như thế nào?\"</em>. Nếu câu trả lời mơ hồ — đừng làm. Bây giờ mình dùng một file <code>SCOPE.md</code> như một contract với bản thân. Mỗi khi muốn thêm gì, phải viết vào đó và đợi 24 giờ mới quyết định.</p><h2>Takeaway</h2><ul><li>Viết design doc trước, dù ngắn</li><li>Dùng SCOPE.md như checklist</li><li>Đặt câu hỏi: game có <em>cần</em> cái này không, hay chỉ mình <em>muốn</em>?</li></ul>",
+      "featured": true,
+      "draft": false
+    },
+    {
+      "id": "save-system-design",
+      "slug": "save-system-design",
+      "title": "Xây Dựng Save System Linh Hoạt Với JSON Serialization",
+      "date": "2026-04-10",
+      "tags": ["unity", "kỹ-thuật", "architecture"],
+      "thumbnail": "",
+      "summary": "Thiết kế save system scalable dùng interface ISaveable — thêm object mới không cần sửa core.",
+      "content": "<h2>Yêu cầu ban đầu</h2><p>Save system cần xử lý: vị trí player, inventory, trạng thái world (cửa đã mở, enemy đã chết...), và game settings. Tất cả phải hoạt động ngay cả khi có thêm feature mới.</p><h2>Architecture: SaveableEntity Pattern</h2><p>Mỗi object muốn được save thì implement interface <code>ISaveable</code>:</p><ul><li><code>CaptureState()</code> — trả về object chứa data cần lưu</li><li><code>RestoreState(object state)</code> — nhận data và khôi phục</li></ul><p><strong>GameDataManager</strong> collect tất cả ISaveable trong scene, serialize ra JSON, và ghi file.</p><h2>Tại sao approach này tốt?</h2><p>Scalable theo đúng nghĩa: thêm NPC mới chỉ cần implement ISaveable — không động vào GameDataManager. Đây là <em>Open/Closed Principle</em> trong thực tế.</p><h2>Lưu ý</h2><ul><li>Dùng <code>JsonUtility</code> của Unity cho simple data, <code>Newtonsoft.Json</code> nếu cần nested object</li><li>Đặt unique ID cho mỗi SaveableEntity — dùng GUID</li><li>Backup save file trước khi ghi đè</li></ul>",
+      "featured": true,
+      "draft": false
+    },
+    {
+      "id": "fog-mechanic-design",
+      "slug": "fog-mechanic-design",
+      "title": "Thiết Kế Mechanic Sương Mù — Khi Visibility Trở Thành Gameplay",
+      "date": "2026-03-28",
+      "tags": ["unity", "gameplay", "design"],
+      "thumbnail": "",
+      "summary": "Sương mù không chỉ là visual effect — nó là core mechanic ảnh hưởng AI, tension, và cách player đưa ra quyết định.",
+      "content": "<h2>Ý tưởng gốc</h2><p>Trong hầu hết game, fog of war là visual trick để che map. Mình muốn làm ngược lại: <strong>sương mù là thứ player phải actively manage</strong>, không phải thứ bị áp đặt.</p><h2>Cách nó hoạt động</h2><p>Fog density thay đổi real-time theo thời gian trong ngày và hành động của player. Khi sương dày, visibility radius giảm xuống 3 tile — áp dụng cho cả player lẫn enemy AI.</p><p>Điều này tạo ra tình huống thú vị: ẩn trong sương mù có thể là lợi thế (enemy không thấy bạn) hoặc bẫy (bạn cũng không thấy gì).</p><h2>Implementation</h2><ul><li>Custom shader blend giữa world và fog texture</li><li>Fog density lưu trong ScriptableObject để dễ tune mà không cần recompile</li><li>Enemy AI có FogAwarenessComponent — điều chỉnh patrol radius theo density hiện tại</li></ul><h2>Điều mình học được</h2><p>Khi một mechanic <em>constraint</em> cả player và enemy, nó tạo ra emergent gameplay thú vị hơn là chỉ constraint một phía. Tension đến từ sự <strong>bất định có hệ thống</strong>, không phải random.</p>",
+      "featured": false,
+      "draft": false
+    },
+    {
+      "id": "pixel-art-workflow",
+      "slug": "pixel-art-workflow",
+      "title": "Pixel Art Workflow: Tool, Palette, và Quy Trình Của Mình",
+      "date": "2026-03-15",
+      "tags": ["art", "pixel-art", "workflow"],
+      "thumbnail": "",
+      "summary": "Chia sẻ toàn bộ quy trình tự vẽ asset cho game — từ chọn tool đến quản lý palette và animation.",
+      "content": "<h2>Tool</h2><p><strong>Aseprite</strong> cho tất cả pixel art. Giá khoảng $20, đáng từng đồng. Workflow frame-by-frame cực kỳ mượt, shortcut được thiết kế riêng cho pixel art.</p><p>Alternative miễn phí: <strong>Libresprite</strong> (fork của Aseprite cũ) hoặc <strong>Pixelorama</strong> nếu bạn thích open-source.</p><h2>Constraint palette: 16 màu</h2><p>Giới hạn palette thực ra là một creative constraint tốt. Nó buộc bạn phải dùng màu thông minh hơn, và kết quả là visual identity nhất quán hơn tự nhiên.</p><p>Mình dùng <strong>Lospec</strong> để tìm và test palette trước khi commit.</p><h2>Animation breakdown</h2><p>Mỗi character: idle (4f) · walk (6f) · run (8f) · attack (5f) · hurt (3f) · die (8f). Tổng cộng khá nhiều, nhưng có thể reuse frame giữa các animation để tiết kiệm thời gian.</p><h2>Export workflow</h2><ul><li>Export spritesheet thay vì từng frame riêng</li><li>Dùng Aseprite CLI để auto-export khi save (tích hợp vào Unity build)</li><li>Đặt tên theo convention: <code>char_player_idle.png</code></li></ul>",
+      "featured": false,
+      "draft": false
+    },
+    {
+      "id": "devlog-day-zero",
+      "slug": "devlog-day-zero",
+      "title": "Devlog #001 — Ngày Đầu Tiên Bắt Đầu Làm Game",
+      "date": "2026-03-01",
+      "tags": ["devlog", "unity", "khởi-đầu"],
+      "thumbnail": "",
+      "summary": "Chọn engine, đặt tên project, và những dòng code đầu tiên. Cảm giác hỗn độn nhưng hào hứng.",
+      "content": "<h2>Quyết định bắt đầu</h2><p>Sau nhiều tuần do dự giữa Unity và Godot, mình chọn Unity vì: ecosystem lớn hơn, tài liệu nhiều hơn, và mình đã quen với C# từ công việc. Đây không phải lựa chọn khách quan nhất — nhưng là lựa chọn giúp mình <em>bắt đầu được</em>.</p><p>Và bắt đầu quan trọng hơn chọn đúng.</p><h2>Project: Haze</h2><p>Tên tạm: <strong>Project Haze</strong>. Game platformer 2D, mechanic chính xoay quanh sương mù tạo ra uncertainty và tension. Scope ban đầu: nhỏ thôi. Một màn chơi hoàn chỉnh trong 3 tháng.</p><h2>Tech stack</h2><ul><li>Unity 2022 LTS</li><li>Universal Render Pipeline (URP)</li><li>Git + GitHub cho version control</li><li>Aseprite cho pixel art</li></ul><h2>Ngày đầu làm được gì?</h2><p>Thật ra không nhiều: setup project, cài packages cần thiết, viết PlayerController cơ bản (move + jump). Nhưng nhìn cái nhân vật di chuyển lần đầu tiên — cảm giác đó đáng để bắt đầu.</p>",
+      "featured": false,
+      "draft": false
+    }
+  ]
+}
