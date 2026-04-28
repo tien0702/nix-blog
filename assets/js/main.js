@@ -39,7 +39,7 @@ const PROXIES = [
   {
     build: (url) => `https://shy-firefly-53f5.tientv-0702.workers.dev//?url=${encodeURIComponent(url)}`,
     extract: async (res) => res.text(),
-  }},
+  },
   {
     build: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
     extract: async (res) => { const j = await res.json(); return j.contents; },
