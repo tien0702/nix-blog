@@ -1,0 +1,34 @@
+{
+  "gdoc_url": "https://docs.google.com/document/d/e/2PACX-1vS8JMZ8mNx9BsPTaHEO9IB0dshBYDPDzHtUJZPs-OPTEvWDixuoegiJzDdGZDZkH7Um9EoxTdlr8jvZ/pub",
+
+  "site": {
+    "name": "NIX",
+    "tagline": "game dev · code · creative",
+    "description": "Blog cá nhân của một game developer — nơi chia sẻ hành trình, kỹ thuật, và những bài học từ thực tế.",
+    "heroKicker": "Game Dev · Code · Creative",
+    "heroHeading": "Tôi là <em>NIX</em>",
+    "heroSub": "Game developer, coder, và người thích chia sẻ. Đây là nơi tôi viết về hành trình làm game, kỹ thuật lập trình, và những suy nghĩ cá nhân.",
+    "language": "vi",
+    "themeColor": "#0a0e17"
+  },
+  "author": {
+    "name": "Nix",
+    "avatar": "",
+    "bio": "Indie game developer. Đang xây dựng Project Haze — một 2D platformer xoay quanh sương mù và sự bất định.",
+    "socials": [
+      { "platform": "github",  "url": "https://github.com/",  "label": "GitHub"  },
+      { "platform": "twitter", "url": "https://twitter.com/", "label": "Twitter" },
+      { "platform": "itch",    "url": "https://itch.io/",     "label": "Itch.io" }
+    ]
+  },
+  "navigation": [
+    { "label": "Trang chủ", "action": "home" },
+    { "label": "Devlog",    "action": "filter", "tag": "devlog"    },
+    { "label": "Kỹ thuật",  "action": "filter", "tag": "kỹ-thuật" },
+    { "label": "Thiết kế",  "action": "filter", "tag": "design"    }
+  ],
+  "footer": {
+    "copyright": "© 2026 NIX. Viết bởi chính mình.",
+    "poweredBy": { "label": "GitHub Pages", "url": "https://pages.github.com" }
+  }
+}

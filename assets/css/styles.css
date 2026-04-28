@@ -1124,3 +1124,31 @@ a { color: inherit; text-decoration: none; }
   .footer-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
   .footer-brand { margin-right: 0; }
 }
+
+/* ── Google Docs Content ──────────────────────────────────────── */
+.gdoc-content figure { margin: 32px 0; text-align: center; }
+.gdoc-content figure img, .gdoc-content .post-img {
+  max-width: 100%; height: auto; border-radius: var(--radius-lg);
+  border: 1px solid var(--border); display: block; margin: 0 auto;
+}
+.gdoc-content figcaption {
+  font-size: 13px; color: var(--text-dim); font-family: var(--font-mono);
+  margin-top: 10px; font-style: italic;
+}
+.gdoc-content img:not(figure img) {
+  max-width: 100%; height: auto; border-radius: var(--radius);
+  border: 1px solid var(--border); margin: 16px auto; display: block;
+}
+.detail-loading {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 100px 20px; gap: 20px;
+}
+.detail-topbar .container { display: flex; align-items: center; gap: 16px; }
+.gdoc-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  color: var(--text-dim); padding: 4px 10px;
+  border: 1px solid var(--border-mid); border-radius: var(--radius);
+  transition: all var(--dur) var(--ease); margin-left: auto; text-decoration: none;
+}
+.gdoc-link:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
