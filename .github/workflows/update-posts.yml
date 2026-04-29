@@ -1,0 +1,47 @@
+name: Update Posts Index
+
+on:
+  push:
+    paths:
+      - 'posts/**.md'
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate posts/index.json
+        run: |
+          cd posts
+          # Liệt kê tất cả .md trừ post-template.md, sắp xếp A-Z
+          FILES=$(ls -1 *.md 2>/dev/null | grep -v '^post-template\.md$' | sort)
+
+          # Tạo JSON array
+          echo "[" > index.json
+          FIRST=true
+          for f in $FILES; do
+            if [ "$FIRST" = true ]; then
+              FIRST=false
+            else
+              echo "," >> index.json
+            fi
+            printf '  "%s"' "$f" >> index.json
+          done
+          echo "" >> index.json
+          echo "]" >> index.json
+
+          echo "Generated index.json with $(echo "$FILES" | wc -w) posts:"
+          cat index.json
+
+      - name: Commit index.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add posts/index.json
+          # Chỉ commit nếu có thay đổi
+          git diff --cached --quiet || git commit -m "auto: update posts/index.json"
+          git push

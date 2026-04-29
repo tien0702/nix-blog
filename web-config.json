@@ -1,6 +1,4 @@
 {
-  "gdoc_url": "https://docs.google.com/document/d/e/2PACX-1vS8JMZ8mNx9BsPTaHEO9IB0dshBYDPDzHtUJZPs-OPTEvWDixuoegiJzDdGZDZkH7Um9EoxTdlr8jvZ/pub",
-
   "site": {
     "name": "NIX",
     "tagline": "game dev · code · creative",
@@ -14,7 +12,7 @@
   "author": {
     "name": "Nix",
     "avatar": "",
-    "bio": "Indie game developer. Đang xây dựng Project Haze — một 2D platformer xoay quanh sương mù và sự bất định.",
+    "bio": "Indie game developer. Đang xây dựng Project Haze.",
     "socials": [
       { "platform": "github",  "url": "https://github.com/",  "label": "GitHub"  },
       { "platform": "twitter", "url": "https://twitter.com/", "label": "Twitter" },
