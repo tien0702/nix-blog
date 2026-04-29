@@ -235,7 +235,7 @@ function parseMdFile(filename, rawText) {
 // ─────────────────────────────────────────────────────────────
 async function fetchConfig() {
   const res = await fetch(URL_CONFIG);
-  if (!res.ok) throw new Error(`Không tải được data.json (HTTP ${res.status})`);
+  if (!res.ok) throw new Error(`Không tải được web-config.json (HTTP ${res.status})`);
   return res.json();
 }
 
