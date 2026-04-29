@@ -16,7 +16,7 @@
 
 // ── Config ────────────────────────────────────────────────────
 const CFG  = { ...(window.SITE_CONFIG || {}) };
-const BASE = (CFG.BASE_PATH || '/nix-blog').replace(/\/$/, '');
+const BASE = (CFG.BASE_PATH || '').replace(/\/$/, '');
 
 const URL_CONFIG = `${BASE}/${CFG.CONFIG_FILE || 'web-config.json'}`;
 const URL_INDEX  = `${BASE}/posts/index.json`;
