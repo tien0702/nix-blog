@@ -88,8 +88,13 @@ function parseFrontmatter(raw) {
 // MARKDOWN RENDERER (lightweight, không cần thư viện)
 // Hỗ trợ: h1-h3, bold, italic, inline code, code block,
 //         unordered list, ordered list, blockquote, paragraph,
-//         link, horizontal rule
+//         link, horizontal rule, image ![](url), raw HTML
+//         (audio, video, iframe, figure — pass through trực tiếp)
 // ─────────────────────────────────────────────────────────────
+
+// Danh sách tag HTML được pass through nguyên bản
+const HTML_PASS_TAGS = /^<(audio|video|iframe|figure|figcaption|source|picture|div class=)/i;
+
 function renderMarkdown(md) {
   // Normalize line endings
   let html = md.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
@@ -112,9 +117,61 @@ function renderMarkdown(md) {
   while (i < lines.length) {
     const line = lines[i];
 
-    // Already HTML (from code block replacement)
+    // Already processed HTML (pre, closing tags)
     if (line.startsWith('<pre') || line.startsWith('</pre')) {
       output.push(line);
+      i++;
+      continue;
+    }
+
+    // ── Raw HTML pass-through (audio, video, iframe, figure, etc.)
+    // Cho phép viết HTML trực tiếp trong .md — giữ nguyên không xử lý
+    if (HTML_PASS_TAGS.test(line.trim())) {
+      // Collect multi-line HTML block (ví dụ: <figure>...\n...\n</figure>)
+      const tagMatch = line.trim().match(/^<(\w+)/);
+      const tagName = tagMatch ? tagMatch[1] : null;
+      const closingTag = `</${tagName}>`;
+
+      // Self-closing hoặc single line (ví dụ: <audio ...></audio>)
+      if (!tagName || line.includes(closingTag) || line.trim().endsWith('/>')) {
+        output.push(line);
+        i++;
+        continue;
+      }
+
+      // Multi-line: collect until closing tag
+      const htmlBlock = [line];
+      i++;
+      while (i < lines.length && !lines[i].includes(closingTag)) {
+        htmlBlock.push(lines[i]);
+        i++;
+      }
+      if (i < lines.length) { htmlBlock.push(lines[i]); i++; }
+      output.push(htmlBlock.join('\n'));
+      continue;
+    }
+
+    // ── Standalone image line: ![alt](url)
+    const imgLine = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (imgLine) {
+      const alt = imgLine[1];
+      const src = imgLine[2];
+      const isGif = /\.gif(\?|$)/i.test(src);
+      const isAudio = /\.(mp3|ogg|wav|m4a|aac)(\?|$)/i.test(src);
+
+      if (isAudio) {
+        // Audio file linked as image syntax → render as audio player
+        output.push(`<div class="media-block audio-block">
+          <audio controls preload="metadata"><source src="${src}"></audio>
+          ${alt ? `<span class="media-caption">${inlineFormat(alt)}</span>` : ''}
+        </div>`);
+      } else {
+        // Image or GIF → render as figure
+        output.push(`<figure class="media-block">
+          <img src="${src}" alt="${escHtml(alt)}" loading="lazy">
+          ${alt ? `<figcaption>${inlineFormat(alt)}</figcaption>` : ''}
+        </figure>`);
+      }
       i++;
       continue;
     }
@@ -165,14 +222,15 @@ function renderMarkdown(md) {
       continue;
     }
 
-    // Empty line → paragraph break (đã xử lý bên dưới)
+    // Empty line
     if (line.trim() === '') { output.push(''); i++; continue; }
 
-    // Paragraph
+    // Paragraph (không bắt đầu bằng < để tránh nuốt raw HTML)
     const paraLines = [];
     while (i < lines.length && lines[i].trim() !== '' && !lines[i].startsWith('#')
            && !lines[i].startsWith('> ') && !/^[-*+] /.test(lines[i])
-           && !/^\d+\. /.test(lines[i]) && !lines[i].startsWith('<')) {
+           && !/^\d+\. /.test(lines[i]) && !lines[i].startsWith('<')
+           && !/^!\[/.test(lines[i])) {
       paraLines.push(lines[i]);
       i++;
     }
@@ -184,7 +242,7 @@ function renderMarkdown(md) {
   return output.join('\n');
 }
 
-// Inline formatting: bold, italic, link
+// Inline formatting: bold, italic, link, inline image
 function inlineFormat(text) {
   // Bold+italic ***...***
   text = text.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
@@ -192,6 +250,9 @@ function inlineFormat(text) {
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   // Italic *...* (không match **)
   text = text.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+  // Inline image ![alt](url) — khi nằm trong paragraph
+  text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,
+    '<img src="$2" alt="$1" loading="lazy" class="inline-media">');
   // Link [text](url)
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   return text;
@@ -235,7 +296,7 @@ function parseMdFile(filename, rawText) {
 // ─────────────────────────────────────────────────────────────
 async function fetchConfig() {
   const res = await fetch(URL_CONFIG);
-  if (!res.ok) throw new Error(`Không tải được web-config.json (HTTP ${res.status})`);
+  if (!res.ok) throw new Error(`Không tải được data.json (HTTP ${res.status})`);
   return res.json();
 }
 
