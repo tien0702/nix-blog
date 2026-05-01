@@ -1,7 +1,15 @@
 [
   "devlog-day-zero.md",
   "fog-mechanic-design.md",
+  "hybrid-casual.md",
+  "management-mindset.md",
+  "midset-dev-clean-code.md",
+  "optimize-structure-data.md",
   "pixel-art-workflow.md",
   "save-system-design.md",
-  "scope-creep-lesson.md"
+  "scope-creep-lesson.md",
+  "storage-service.md",
+  "unity6-ai.md",
+  "unity6-dots-corCLR.md",
+  "unity6-performance.md"
 ]
